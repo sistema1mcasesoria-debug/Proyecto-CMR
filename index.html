@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=ai-legible&utm_source=comment&utm_medium=referral&utm_id=e9cf1039-89cf-4f38-a51e-77ae68f2d1cc
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta name="hosting-provider" content="Netlify">
+<meta name="netlify-deploy" content="https://netlify.new/?utm_campaign=ai-legible&amp;utm_source=meta&amp;utm_medium=referral&amp;utm_id=e9cf1039-89cf-4f38-a51e-77ae68f2d1cc">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Profesional | MC Asesoría y Gestión</title>
+    <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <img src="LogoMCweb (4).png" alt="MC Asesoría y Gestión Logo" class="brand-logo" id="brand-logo">
+                <div class="brand-text">
+                    <span class="brand-name">MC Asesoría</span>
+                    <span class="brand-sub">y Gestión</span>
+                </div>
+                <button class="icon-btn-secondary close-sidebar-btn" id="close-sidebar-btn" style="display: none; padding: 4px; border:none; background:transparent;" title="Cerrar menú">
+                    <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+            
+            <div class="month-selector-container">
+                <label for="month-select" class="field-label"><i data-lucide="calendar"></i> Mes Activo</label>
+                <div class="month-selector-group">
+                    <select id="month-select" class="month-select">
+                        <!-- Dynamically filled: Mayo 2026, Junio 2026, etc. -->
+                    </select>
+                    <button id="add-month-btn" class="icon-btn-secondary" title="Añadir nuevo mes">
+                        <i data-lucide="plus"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="nav-dashboard">
+                    <i data-lucide="layout-dashboard"></i> Panel de Control
+                </a>
+                <a href="#" class="nav-item" id="nav-metrics">
+                    <i data-lucide="bar-chart-3"></i> Reportes y Métricas
+                </a>
+                <a href="#" class="nav-item" id="nav-kanban">
+                    <i data-lucide="kanban-square"></i> Embudo de Ventas
+                </a>
+                <a href="#" class="nav-item" id="nav-clients">
+                    <i data-lucide="users"></i> Lista de Clientes
+                </a>
+                <a href="#" class="nav-item" id="nav-templates">
+                    <i data-lucide="message-square"></i> Plantillas WhatsApp
+                </a>
+                <a href="#" class="nav-item" id="nav-calendar">
+                    <i data-lucide="calendar-days"></i> Calendario
+                </a>
+                <a href="#" class="nav-item" id="nav-backup">
+                    <i data-lucide="database"></i> Respaldos y Datos
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="backup-status-widget">
+                    <div class="status-indicator warning" id="backup-indicator-dot"></div>
+                    <div class="status-info">
+                        <span class="status-label">Respaldo de Seguridad</span>
+                        <span class="status-desc" id="backup-status-text">Sin respaldar recientemente</span>
+                    </div>
+                </div>
+                
+                <button id="theme-toggle-btn" class="theme-toggle-btn">
+                    <i data-lucide="sun" class="sun-icon"></i>
+                    <i data-lucide="moon" class="moon-icon"></i>
+                    <span id="theme-text">Modo Oscuro</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Mobile Header Bar (Visible on mobile only) -->
+            <div class="mobile-header-bar" id="mobile-header-bar">
+                <button class="menu-toggle-btn" id="menu-toggle-btn"><i data-lucide="menu"></i></button>
+                <div class="mobile-brand-title">
+                    <img src="LogoMCweb (4).png" alt="MC Logo" class="mobile-brand-logo">
+                    <span>MC CRM</span>
+                </div>
+            </div>
+            
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-title-area">
+                    <h1 id="page-title">Panel de Control</h1>
+                    <p class="header-subtitle" id="page-subtitle">Estadísticas e información general del negocio</p>
+                </div>
+                
+                <!-- Controls and Line Toggle -->
+                <div class="header-controls">
+                    <div class="line-toggle-group">
+                        <button class="line-btn active" id="btn-line-all" data-line="all">Todos</button>
+                        <button class="line-btn" id="btn-line-contabilidad" data-line="contabilidad"><i class="dot contabilidad"></i> Contabilidad</button>
+                        <button class="line-btn" id="btn-line-sistemas" data-line="sistemas"><i class="dot sistemas"></i> Sistemas</button>
+                    </div>
+                    
+                    <!-- Custom Date Range Picker Dropdown (Meta Style) -->
+                    <div class="date-range-picker-container" id="global-date-picker-container">
+                        <button class="date-range-trigger-btn" id="date-range-trigger" title="Filtrar por rango de fechas">
+                            <i data-lucide="calendar" style="width: 15px; height: 15px;"></i>
+                            <span id="date-range-label">Este mes</span>
+                            <i data-lucide="chevron-down" style="width: 12px; height: 12px; margin-left: 2px;"></i>
+                        </button>
+                        
+                        <div class="date-picker-dropdown" id="date-picker-dropdown">
+                            <div class="date-picker-sidebar">
+                                <button type="button" class="preset-btn" data-preset="hoy">Hoy</button>
+                                <button type="button" class="preset-btn" data-preset="ayer">Ayer</button>
+                                <button type="button" class="preset-btn" data-preset="hoy_ayer">Hoy y ayer</button>
+                                <button type="button" class="preset-btn" data-preset="7_dias">Últimos 7 días</button>
+                                <button type="button" class="preset-btn" data-preset="14_dias">Últimos 14 días</button>
+                                <button type="button" class="preset-btn" data-preset="28_dias">Últimos 28 días</button>
+                                <button type="button" class="preset-btn" data-preset="30_dias">Últimos 30 días</button>
+                                <button type="button" class="preset-btn" data-preset="esta_semana">Esta semana</button>
+                                <button type="button" class="preset-btn" data-preset="ultima_semana">Última semana</button>
+                                <button type="button" class="preset-btn active" data-preset="este_mes">Este mes</button>
+                                <button type="button" class="preset-btn" data-preset="el_mes_pasado">El mes pasado</button>
+                                <button type="button" class="preset-btn" data-preset="maximo">Máximo</button>
+                                <button type="button" class="preset-btn" data-preset="custom">Personalizado</button>
+                            </div>
+                            <div class="date-picker-body">
+                                <div class="custom-range-inputs" id="custom-range-inputs-area">
+                                    <div class="input-group">
+                                        <label>Desde:</label>
+                                        <input type="date" id="custom-start-date" class="form-input">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Hasta:</label>
+                                        <input type="date" id="custom-end-date" class="form-input">
+                                    </div>
+                                </div>
+                                
+                                <div class="compare-toggle-container">
+                                    <input type="checkbox" id="compare-period-checkbox">
+                                    <label for="compare-period-checkbox">Comparar período anterior</label>
+                                </div>
+                                
+                                <div class="date-picker-actions">
+                                    <button type="button" class="btn-secondary btn-sm" id="btn-date-picker-cancel">Cancelar</button>
+                                    <button type="button" class="btn-primary btn-sm" id="btn-date-picker-apply">Actualizar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary" id="btn-new-client">
+                        <i data-lucide="plus-circle"></i> Nuevo Cliente
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Dynamic Sections -->
+            
+            <!-- SECTION 1: DASHBOARD -->
+            <section id="sec-dashboard" class="content-section active">
+                <div class="metrics-grid">
+                    <!-- Metric Card 1 -->
+                    <div class="metric-card">
+                        <div class="card-icon blue">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="stat-total">0</span>
+                            <span class="metric-label">Clientes Totales</span>
+                        </div>
+                        <div class="metric-change positive" id="stat-total-growth">Activos en el mes</div>
+                    </div>
+                    
+                    <!-- Metric Card 2 -->
+                    <div class="metric-card">
+                        <div class="card-icon emerald">
+                            <i data-lucide="check-circle-2"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="stat-won">0</span>
+                            <span class="metric-label">Clientes Ganados</span>
+                        </div>
+                        <div class="metric-change positive" id="stat-won-label">Efectividad del equipo</div>
+                    </div>
+                    
+                    <!-- Metric Card 3 -->
+                    <div class="metric-card">
+                        <div class="card-icon red">
+                            <i data-lucide="x-circle"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="stat-lost">0</span>
+                            <span class="metric-label">Clientes Perdidos</span>
+                        </div>
+                        <div class="metric-change negative" id="stat-lost-label">Fuga de leads</div>
+                    </div>
+                    
+                    <!-- Metric Card 4 -->
+                    <div class="metric-card">
+                        <div class="card-icon amber">
+                            <i data-lucide="trending-up"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="stat-conversion">0%</span>
+                            <span class="metric-label">Tasa de Conversión</span>
+                        </div>
+                        <div class="metric-progress-container">
+                            <div class="metric-progress-bar" id="stat-conversion-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Metric Card 5: Pipeline Value -->
+                    <div class="metric-card">
+                        <div class="card-icon blue" style="background-color: rgba(79, 70, 229, 0.1); color: rgb(79, 70, 229);">
+                            <i data-lucide="bar-chart-4"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="stat-pipeline-value">S/. 0</span>
+                            <span class="metric-label">Valor del Embudo</span>
+                        </div>
+                        <div class="metric-change positive" id="stat-pipeline-subtitle">Negocios en curso</div>
+                    </div>
+                    
+                    <!-- Metric Card 6: Won Revenue -->
+                    <div class="metric-card">
+                        <div class="card-icon emerald">
+                            <i data-lucide="dollar-sign"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="stat-won-value">S/. 0</span>
+                            <span class="metric-label">Ventas Concretadas</span>
+                        </div>
+                        <div class="metric-change positive" id="stat-won-subtitle">Ingresos ganados</div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-details-grid">
+                    <!-- Funnel Visualization -->
+                    <div class="details-card funnel-card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i data-lucide="bar-chart-3"></i> Embudo de Ventas (Pipeline)</h3>
+                            <span class="card-badge">Fases del Cliente</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="funnel-chart" id="dashboard-funnel">
+                                <!-- Generated Dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Analytics & Lost reasons -->
+                    <div class="details-card lost-reasons-card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i data-lucide="alert-triangle"></i> Análisis de Pérdidas y Errores</h3>
+                            <span class="card-badge alert">Focos Rojos</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="description-text">Distribución de motivos por los cuales no se concretaron las ventas:</p>
+                            <div class="reasons-list" id="dashboard-lost-reasons">
+                                <!-- Generated Dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROI & Campaign Performance Monitor -->
+                <div class="details-card" style="margin-top: 20px; margin-bottom: 20px;">
+                    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; border-bottom:1px solid var(--border-color); padding: 14px 20px;">
+                        <h3 class="card-title" style="display:flex; align-items:center; gap:8px; margin:0; font-size:0.98rem; font-weight:700; color:var(--text-primary);">
+                            <i data-lucide="line-chart" style="width:18px; height:18px; color:var(--primary);"></i> 📊 Monitor de Campañas y ROI (Meta Ads)
+                        </h3>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <label for="roi-line-select" style="font-size:0.8rem; font-weight:700; color:var(--text-secondary); margin:0;">Línea de Campaña:</label>
+                            <select id="roi-line-select" class="form-input select-small" style="max-width:180px; margin:0; height:32px; padding:0 8px;">
+                                <option value="all">Todas las Campañas</option>
+                                <option value="contabilidad">Contabilidad (S/. 25/día)</option>
+                                <option value="sistemas">Sistemas / ERP (S/. 30/día)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body" id="roi-monitor-container" style="padding: 20px;">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="dashboard-lists-grid">
+                    <!-- Column 1: Recent Activity -->
+                    <div class="details-card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i data-lucide="sparkles"></i> Actividad Reciente</h3>
+                            <p class="description-text">Últimos clientes creados o actualizados en este mes</p>
+                        </div>
+                        <div class="card-body scrollable-body" style="max-height: 380px; overflow-y: auto;">
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Cliente</th>
+                                            <th>Contacto</th>
+                                            <th>Línea</th>
+                                            <th>Etapa Actual</th>
+                                            <th>Última Nota / Propuesta</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dashboard-recent-leads">
+                                        <!-- Dynamically populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Today's Agenda Widget -->
+                    <div class="details-card">
+                        <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <h3 class="card-title"><i data-lucide="calendar"></i> Agenda del Día y Citas</h3>
+                                <p class="description-text">Reuniones programadas para hoy y próximos días</p>
+                            </div>
+                            <span class="card-badge warning" style="background-color: var(--warning-light); color: var(--warning); font-weight:700; font-size:0.75rem;" id="dashboard-agenda-badge">0 Hoy</span>
+                        </div>
+                        <div class="card-body scrollable-body" style="max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 16px 20px;" id="dashboard-agenda-list">
+                            <!-- Dynamically populated meetings list -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION 1B: REPORTS AND METRICS -->
+            <section id="sec-metrics" class="content-section">
+                <!-- Metrics Cards -->
+                <div class="metrics-grid" style="margin-bottom: 24px;">
+                    <div class="metric-card">
+                        <div class="card-icon blue">
+                            <i data-lucide="bar-chart-2"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="metrics-stat-total">0</span>
+                            <span class="metric-label">Leads del Período</span>
+                        </div>
+                        <div class="metric-change positive" id="metrics-stat-total-compare">vs período anterior</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="card-icon pink">
+                            <i data-lucide="check-circle-2"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="metrics-stat-contabilidad">0</span>
+                            <span class="metric-label">Contabilidad</span>
+                        </div>
+                        <div class="metric-change positive" id="metrics-stat-contabilidad-compare">vs período anterior</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="card-icon cyan">
+                            <i data-lucide="check-circle-2"></i>
+                        </div>
+                        <div class="metric-data">
+                            <span class="metric-value" id="metrics-stat-sistemas">0</span>
+                            <span class="metric-label">Sistemas</span>
+                        </div>
+                        <div class="metric-change positive" id="metrics-stat-sistemas-compare">vs período anterior</div>
+                    </div>
+                </div>
+                
+                <!-- Ads ROI Calculator Settings -->
+                <div class="details-card" style="margin-bottom: 24px; padding: 20px;">
+                    <div class="card-header" style="padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--border-color);">
+                        <h3 class="card-title" style="display: flex; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 700;">
+                            <i data-lucide="line-chart" style="color: var(--primary);"></i> Inversión en Campañas de Publicidad (Meta Ads)
+                        </h3>
+                        <p class="description-text">Ingresa los datos de inversión y conversaciones de Meta Ads para calcular los costos reales por lead</p>
+                    </div>
+                    <div class="card-body" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                        <div class="input-group">
+                            <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; display: block;">Inversión Contabilidad (S/.)</label>
+                            <input type="number" step="0.01" id="adspend-contabilidad" class="form-input" placeholder="Ej. 326.42" style="width: 100%; height: 38px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0 10px; background: var(--bg-card); color: var(--text-primary);">
+                        </div>
+                        <div class="input-group">
+                            <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; display: block;">Conversaciones Meta Contabilidad</label>
+                            <input type="number" id="adconvs-contabilidad" class="form-input" placeholder="Ej. 3" style="width: 100%; height: 38px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0 10px; background: var(--bg-card); color: var(--text-primary);">
+                        </div>
+                        <div class="input-group">
+                            <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; display: block;">Inversión Sistemas / IT (S/.)</label>
+                            <input type="number" step="0.01" id="adspend-sistemas" class="form-input" placeholder="Ej. 205.02" style="width: 100%; height: 38px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0 10px; background: var(--bg-card); color: var(--text-primary);">
+                        </div>
+                        <div class="input-group">
+                            <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; display: block;">Conversaciones Meta Sistemas</label>
+                            <input type="number" id="adconvs-sistemas" class="form-input" placeholder="Ej. 6" style="width: 100%; height: 38px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0 10px; background: var(--bg-card); color: var(--text-primary);">
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+                        <button class="btn-primary" id="btn-save-adspend" style="height: 38px; padding: 0 16px; font-weight: 700; font-size: 0.82rem; display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="refresh-cw" style="width: 14px; height: 14px;"></i> Guardar y Recalcular ROI
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ROI Results Grid -->
+                <div class="metrics-grid" id="adspend-results-grid" style="margin-bottom: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+                    <!-- Will be generated dynamically -->
+                </div>
+                
+                <!-- Charts Grid -->
+                <div class="metrics-charts-grid" style="display: flex; flex-direction: column; gap: 24px;">
+                    <!-- Chart 1: Evolution of Leads -->
+                    <div class="details-card chart-card" style="width: 100%;">
+                        <div class="card-header">
+                            <h3 class="card-title"><i data-lucide="trending-up" style="color:var(--primary);"></i> Evolución Temporal de Leads</h3>
+                            <p class="description-text">Registros ingresados por fecha (Contabilidad vs Sistemas)</p>
+                        </div>
+                        <div class="card-body" style="position: relative; height: 350px; padding: 20px;">
+                            <canvas id="chart-leads-evolution" style="width:100%; height:100%;"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart 2: Distribution and Pipeline Row -->
+                    <div class="metrics-charts-row" style="display: flex; gap: 24px; flex-wrap: wrap;">
+                        <div class="details-card chart-card" style="flex: 1; min-width: 300px;">
+                            <div class="card-header">
+                                <h3 class="card-title"><i data-lucide="pie-chart" style="color:var(--primary);"></i> Distribución de Campañas</h3>
+                                <p class="description-text">Proporción de leads por línea de negocio</p>
+                            </div>
+                            <div class="card-body" style="position: relative; height: 280px; display: flex; align-items: center; justify-content: center; padding: 20px;">
+                                <div style="width: 220px; height: 220px;">
+                                    <canvas id="chart-leads-distribution"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="details-card chart-card" style="flex: 1; min-width: 300px;">
+                            <div class="card-header">
+                                <h3 class="card-title"><i data-lucide="filter" style="color:var(--primary);"></i> Estado del Embudo (Pipeline)</h3>
+                                <p class="description-text">Distribución de clientes por etapa de venta</p>
+                            </div>
+                            <div class="card-body" style="position: relative; height: 280px; padding: 20px;">
+                                <canvas id="chart-leads-stages" style="width:100%; height:100%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Insights Panel -->
+                <div class="details-card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <h3 class="card-title"><i data-lucide="lightbulb" style="color: var(--warning);"></i> Insights y Patrones de Datos Detectados</h3>
+                        <p class="description-text">Análisis automático basado en el historial y comportamiento de tus leads</p>
+                    </div>
+                    <div class="card-body" id="metrics-insights-container" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                        <!-- Dynamically filled with smart insights from data -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION 2: KANBAN -->
+            <section id="sec-kanban" class="content-section">
+                <div class="kanban-board" id="kanban-board">
+                    <!-- Dynamically created columns for:
+                        1. Contacto Inicial
+                        2. Llamada (Opcional)
+                        3. Asesoría
+                        4. Cotización
+                        5. Seguimiento
+                        6. Ganado
+                        7. Perdido
+                    -->
+                </div>
+            </section>
+            
+            <!-- SECTION 3: CLIENT LIST -->
+            <section id="sec-clients" class="content-section">
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="client-search-input" placeholder="Buscar por nombre, teléfono o propuesta...">
+                    </div>
+                    <div class="filter-controls" style="display:flex; gap:8px; align-items:center;">
+                        <select id="filter-stage-select" class="form-input select-small">
+                            <option value="all">Todas las Etapas</option>
+                            <option value="active_only">Solo Activos (Sin Ganados/Perdidos)</option>
+                            <option value="no_lost">Todos (Excepto Cierre Perdido)</option>
+                            <option value="contacto_inicial">1. Contacto Inicial</option>
+                            <option value="llamada">2. Llamada</option>
+                            <option value="asesoria">3. Asesoría</option>
+                            <option value="cotizacion">4. Cotización</option>
+                            <option value="seguimiento">5. Seguimiento</option>
+                            <option value="ganado">6. Ganado</option>
+                            <option value="perdido">7. Perdido</option>
+                        </select>
+                        <input type="date" id="filter-date-input" class="form-input select-small" style="max-width: 145px; height: 36px; padding: 0 8px; display: none;" title="Filtrar por fecha de registro">
+                        <button id="btn-clear-date-filter" class="icon-btn-secondary" title="Limpiar filtro de fecha" style="height:36px; width:36px; display:none; align-items:center; justify-content:center; padding:0;">
+                            <i data-lucide="calendar-x" style="width:16px; height:16px;"></i>
+                        </button>
+                        <button id="btn-detect-duplicates" class="btn-secondary" title="Detectar leads duplicados en el CRM" style="height:36px; display:inline-flex; align-items:center; gap:6px; font-weight:700; background-color:rgba(217, 119, 6, 0.08); border-color:rgba(217, 119, 6, 0.2); color:var(--warning); padding:0 12px;">
+                            <i data-lucide="copy" style="width:15px; height:15px;"></i> Duplicados
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="alert-box info" id="clients-stats-bar" style="margin-top: 15px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 10px 16px; border-radius: var(--radius-md); background-color: var(--primary-light); color: var(--primary); border-left: 4px solid var(--primary);">
+                    <span style="font-size: 0.82rem; font-weight:500;"><i data-lucide="trending-up" style="width:15px; height:15px; vertical-align:middle; margin-right:4px;"></i> <strong>Promedio de Campaña:</strong> <span id="clients-avg-per-day" style="font-weight: 800; font-size:0.9rem;">0.0</span> mensajes al día recibidos en este mes.</span>
+                    <span id="clients-filter-count-badge" class="card-badge info" style="background-color: rgba(79, 70, 229, 0.15); color: var(--primary); font-weight: 800; padding: 3px 8px; border-radius:4px; font-size:0.7rem;">Cargados: 0 clientes</span>
+                </div>
+                
+                <div class="details-card">
+                    <div class="card-body no-padding">
+                        <div class="table-container">
+                            <table class="data-table" id="clients-main-table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Cliente</th>
+                                        <th>Teléfono</th>
+                                        <th>Línea</th>
+                                        <th>Etapa</th>
+                                        <th>Presupuesto</th>
+                                        <th>Próxima Reunión / Llamada</th>
+                                        <th>Comentarios / Servicio</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="clients-list-tbody">
+                                    <!-- Dynamically filled -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION 4: TEMPLATES -->
+            <section id="sec-templates" class="content-section">
+                <div class="templates-container">
+                    <div class="template-sidebar-selector">
+                        <h3>Seleccionar Plantilla</h3>
+                        <div class="template-btn-list" id="template-buttons">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                    <div class="template-editor-area">
+                        <div class="details-card">
+                            <div class="card-header">
+                                <h3 class="card-title" id="active-template-title">Mensaje de Contacto Inicial</h3>
+                                <div class="template-client-helper">
+                                    <label for="template-client-select">Simular con Cliente:</label>
+                                    <select id="template-client-select" class="form-input select-small">
+                                        <option value="">-- Ninguno (General) --</option>
+                                        <!-- Clients list filled dynamically -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert-box info" id="template-editor-notice">
+                                    <i data-lucide="info"></i>
+                                    <span id="template-notice-span">Esta plantilla reemplazará automáticamente los marcadores de posición como <strong>[Nombre]</strong> con los datos del cliente seleccionado.</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <textarea id="template-text-editor" class="form-textarea code-style" rows="12" placeholder="Escribe el texto de tu plantilla aquí..."></textarea>
+                                </div>
+                                
+                                <div class="template-actions">
+                                    <button class="btn-success" id="btn-save-template-text" style="margin-right: auto;">
+                                        <i data-lucide="save"></i> Guardar Cambios
+                                    </button>
+                                    <button class="btn-secondary" id="btn-copy-template">
+                                        <i data-lucide="copy"></i> Copiar Mensaje
+                                    </button>
+                                    <button class="btn-success" id="btn-send-whatsapp-template">
+                                        <i data-lucide="phone"></i> Enviar por WhatsApp
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION 5: BACKUP & DATA -->
+            <section id="sec-backup" class="content-section">
+                <div class="backup-grid">
+                    <!-- Export Box -->
+                    <div class="details-card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i data-lucide="download"></i> Exportar e Informes</h3>
+                            <p class="description-text">Descarga tus datos en formatos estándar para abrirlos en Microsoft Excel o respaldarlos.</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="backup-actions">
+                                <button class="btn-primary full-width" id="btn-export-csv">
+                                    <i data-lucide="file-spreadsheet"></i> Descargar Datos para Excel (CSV)
+                                </button>
+                                <p class="action-desc">Formato plano compatible con Excel. Ideal para informes administrativos.</p>
+                                
+                                <button class="btn-secondary full-width" id="btn-export-json">
+                                    <i data-lucide="shield-check"></i> Descargar Copia de Seguridad Completa (JSON)
+                                </button>
+                                <p class="action-desc">Contiene toda la base de datos del CRM (historial de clientes, comentarios, etapas, fechas). Úsala para restaurar tus datos en otra computadora.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Import Box -->
+                    <div class="details-card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i data-lucide="upload"></i> Restaurar Copia de Seguridad</h3>
+                            <p class="description-text">Restaura una copia de seguridad JSON previamente descargada para recuperar todos tus clientes.</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="import-zone" id="import-drag-zone">
+                                <i data-lucide="file-json" class="import-icon"></i>
+                                <span class="import-text">Arrastra tu archivo .json aquí o haz clic para seleccionarlo</span>
+                                <input type="file" id="backup-file-input" accept=".json" style="display: none;">
+                            </div>
+                            <div id="import-error" class="error-text" style="display: none;"></div>
+                            <div id="import-success" class="success-text" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Google Sheets Cloud Sync Card -->
+                    <div class="details-card" style="grid-column: span 2;">
+                        <div class="card-header">
+                            <h3 class="card-title"><i data-lucide="cloud"></i> Sincronización en la Nube (Google Sheets)</h3>
+                            <span class="card-badge" style="background-color: var(--success-light); color: var(--success);" id="sync-status-badge">100% Gratuito</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="description-text">¿Quieres proteger tus datos contra borrados de historial del navegador? Vincula tu CRM directamente a un archivo de Google Sheets en tu Google Drive de forma automática.</p>
+                            
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label for="sync-url-input" class="form-label">URL del Web App de Google Apps Script</label>
+                                <input type="url" id="sync-url-input" class="form-input" placeholder="https://script.google.com/macros/s/.../exec">
+                            </div>
+
+                            <div class="template-actions" style="margin-top: 10px; justify-content: flex-start; gap: 12px;">
+                                <button class="btn-success" id="btn-save-sync">
+                                    <i data-lucide="cloud-lightning"></i> Guardar y Sincronizar a la Nube
+                                </button>
+                                <button class="btn-secondary" id="btn-pull-sync">
+                                    <i data-lucide="cloud-download"></i> Cargar Datos desde la Nube
+                                </button>
+                                <button class="btn-secondary" id="btn-toggle-instructions" style="border:1px dashed var(--border-color);">
+                                    <i data-lucide="help-circle"></i> ¿Cómo configurar? (Instrucciones)
+                                </button>
+                            </div>
+
+                            <div id="sync-error" class="error-text" style="display: none; text-align: left;"></div>
+                            <div id="sync-success" class="success-text" style="display: none; text-align: left;"></div>
+
+                            <!-- Interactive Google Sheets Instructions Box -->
+                            <div id="sync-instructions-box" style="display: none; margin-top: 20px; padding: 16px; background-color: var(--bg-hover); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                                <h4 style="margin-bottom: 8px; font-size: 0.9rem; color: var(--text-primary);">Instrucciones en 4 Pasos:</h4>
+                                <ol style="font-size: 0.8rem; line-height: 1.5; color: var(--text-secondary); margin-left: 20px; margin-bottom: 12px;">
+                                    <li>Crea un archivo de <strong>Google Sheets</strong> en blanco en tu Google Drive.</li>
+                                    <li>Ve al menú superior y selecciona <strong>Extensiones > Apps Script</strong>.</li>
+                                    <li>Borra el código que aparezca y pega el script que te dejamos abajo.</li>
+                                    <li>Haz clic arriba en <strong>Implementar > Nueva implementación</strong>. Elige tipo "Aplicación web", en "Quién tiene acceso" selecciona <strong>"Cualquier persona"</strong> y haz clic en Implementar. Copia la URL que te dé y pégala arriba.</li>
+                                </ol>
+                                
+                                <span class="form-label">Código de Google Apps Script a Copiar:</span>
+                                <textarea class="form-textarea code-style" rows="12" readonly style="font-size:0.75rem; margin-top:6px;">
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var payload = JSON.parse(e.postData.contents);
+  
+  if (payload.action === "add_lead") {
+    // 1. Registrar lead individual (desde Extensión de WhatsApp)
+    var lastRow = sheet.getLastRow();
+    var jsonStr = "";
+    if (lastRow > 0) {
+      var values = sheet.getRange(1, 1, lastRow, 1).getValues();
+      for (var i = 0; i < values.length; i++) {
+        jsonStr += values[i][0];
+      }
+    }
+    
+    var db = {};
+    try {
+      db = JSON.parse(jsonStr || "{}");
+    } catch(err) {
+      db = {};
+    }
+    
+    if (!db.leads) db.leads = [];
+    if (!db.months) db.months = [];
+    if (!db.trash) db.trash = [];
+    
+    var newLead = payload.lead;
+    
+    // Evitar duplicados por teléfono en el mismo mes
+    var exists = db.leads.some(function(l) {
+      return l.phone === newLead.phone && l.month === newLead.month;
+    });
+    
+    if (!exists) {
+      db.leads.push(newLead);
+      db.exportedAt = new Date().toISOString(); // Actualizar fecha de modificación
+      
+      // Agregar mes a la lista de activos si no existe
+      if (db.months.indexOf(newLead.month) === -1) {
+        db.months.push(newLead.month);
+      }
+      
+      // Guardar base de datos actualizada en fragmentos
+      sheet.clear();
+      var newJsonStr = JSON.stringify(db);
+      var chunkSize = 40000;
+      var row = 1;
+      for (var j = 0; j < newJsonStr.length; j += chunkSize) {
+        var chunk = newJsonStr.substring(j, j + chunkSize);
+        sheet.getRange(row, 1).setValue(chunk);
+        row++;
+      }
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({status: "success", duplicated: exists}))
+      .setMimeType(ContentService.MimeType.JSON);
+      
+  } else {
+    // 2. Sobrescribir base de datos completa (desde Sincronización CRM)
+    sheet.clear();
+    var fullJsonStr = JSON.stringify(payload);
+    var chunkSize = 40000;
+    var row = 1;
+    for (var k = 0; k < fullJsonStr.length; k += chunkSize) {
+      var chunk = fullJsonStr.substring(k, k + chunkSize);
+      sheet.getRange(row, 1).setValue(chunk);
+      row++;
+    }
+    return ContentService.createTextOutput(JSON.stringify({status: "success"}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var lastRow = sheet.getLastRow();
+  if (lastRow === 0) {
+    return ContentService.createTextOutput("{}")
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  var values = sheet.getRange(1, 1, lastRow, 1).getValues();
+  var jsonStr = "";
+  for (var i = 0; i < values.length; i++) {
+    jsonStr += values[i][0];
+  }
+  
+  return ContentService.createTextOutput(jsonStr || "{}")
+    .setMimeType(ContentService.MimeType.JSON);
+}
+                                </textarea>
+                            </div>
+
+                            <!-- Browser Protection Tip -->
+                            <div class="alert-box info" style="margin-top: 20px; background-color: var(--primary-light); color: var(--primary); border-left: 4px solid var(--primary);">
+                                <i data-lucide="shield-check"></i>
+                                <span><strong>Consejo Profesional (Chrome/Edge):</strong> Para garantizar que tu navegador nunca borre tus datos al limpiar el historial, ve a <i>Configuración de Chrome > Privacidad y Seguridad > Cookies y otros datos de sitios</i>, y añade tu dirección de Netlify en la sección de <strong>"Sitios que siempre pueden usar cookies"</strong>.</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                <!-- Papelera de Reciclaje -->
+                <div class="details-card" style="grid-column: span 2;">
+                    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <h3 class="card-title"><i data-lucide="trash-2"></i> Papelera de Reciclaje</h3>
+                            <p class="description-text">Clientes eliminados recientemente. Puedes restaurarlos con todo su historial intacto o borrarlos definitivamente.</p>
+                        </div>
+                        <span class="card-badge info" style="background-color: var(--primary-light); color: var(--primary); font-weight:700;" id="trash-count-badge">0 Clientes</span>
+                    </div>
+                    <div class="card-body">
+                        <div id="trash-list-empty" style="text-align: center; color: var(--text-secondary); padding: 30px 0; border: 1px dashed var(--border-color); border-radius: var(--radius-md);">
+                            La papelera de reciclaje está vacía.
+                        </div>
+                        <div class="table-container" id="trash-table-container" style="display: none; max-height: 250px; overflow-y: auto;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha Elim.</th>
+                                        <th>Cliente</th>
+                                        <th>Teléfono</th>
+                                        <th>Línea</th>
+                                        <th>Presupuesto</th>
+                                        <th>Comentarios</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="trash-list-tbody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructions / Clear Data Box -->
+                <div class="details-card warning-card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i data-lucide="alert-triangle"></i> Zona de Peligro</h3>
+                        <p class="description-text">Acciones de mantenimiento irreversibles para el CRM.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="danger-zone-action">
+                            <div class="danger-text">
+                                <strong>Limpiar base de datos local</strong>
+                                <p>Eliminará permanentemente todos los clientes y meses del navegador actual. Asegúrate de tener un respaldo antes de hacerlo.</p>
+                            </div>
+                            <button class="btn-danger" id="btn-clear-db">
+                                <i data-lucide="trash-2"></i> Restablecer CRM de Fábrica
+                            </button>
+                        </div>
+                    </div>
+            </section>
+            
+            <!-- SECTION 6: CALENDAR -->
+            <section id="sec-calendar" class="content-section">
+                <div class="calendar-layout">
+                    <!-- Sidebar panel: Upcoming Meetings list -->
+                    <div class="calendar-sidebar">
+                        <h3 style="font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;"><i data-lucide="bell-ring" style="width: 18px; height: 18px; color: var(--warning);"></i> Citas Agendadas</h3>
+                        
+                        <!-- Notifications Activation Button -->
+                        <button id="btn-request-notifications" class="btn-secondary" style="margin-top: 12px; margin-bottom: 12px; width: 100%; display: none; align-items: center; justify-content: center; gap: 8px; font-size: 0.8rem; padding: 10px 12px; border-radius: var(--radius-md); font-weight: 700; border: 1px dashed var(--warning); background-color: var(--warning-light); color: var(--warning); transition: all var(--transition-fast);">
+                            <i data-lucide="bell"></i> Activar Alertas Web
+                        </button>
+                        
+                        <div id="upcoming-events-list" class="upcoming-list">
+                            <!-- Dynamically filled with upcoming meetings -->
+                        </div>
+                    </div>
+                    
+                    <!-- Main Calendar Grid -->
+                    <div class="calendar-main details-card">
+                        <div class="card-header" style="padding: 16px 24px;">
+                            <div class="calendar-header-left" style="display: flex; align-items: center; gap: 12px;">
+                                <button class="icon-btn-secondary" id="btn-prev-month" title="Mes Anterior" style="padding: 8px;"><i data-lucide="chevron-left" style="width:16px; height:16px;"></i></button>
+                                <h3 id="calendar-current-month-year" style="font-size: 1.2rem; min-width: 140px; text-align: center; color: var(--text-primary);">Junio 2026</h3>
+                                <button class="icon-btn-secondary" id="btn-next-month" title="Mes Siguiente" style="padding: 8px;"><i data-lucide="chevron-right" style="width:16px; height:16px;"></i></button>
+                            </div>
+                            <span class="card-badge" style="background-color: var(--warning-light); color: var(--warning); font-weight:700;">Vista Mensual Interactiva</span>
+                        </div>
+                        <div class="card-body" style="padding: 16px;">
+                            <!-- Calendar grid container -->
+                            <div class="calendar-grid">
+                                <div style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 8px;">
+                                    <div class="weekday-header">Dom</div>
+                                    <div class="weekday-header">Lun</div>
+                                    <div class="weekday-header">Mar</div>
+                                    <div class="weekday-header">Mié</div>
+                                    <div class="weekday-header">Jue</div>
+                                    <div class="weekday-header">Vie</div>
+                                    <div class="weekday-header">Sáb</div>
+                                </div>
+                                
+                                <div class="calendar-days-container" id="calendar-days-grid">
+                                    <!-- Generated dynamically in JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+        
+    </div>
+    
+    <!-- MODAL 1: ADD / EDIT CLIENT -->
+    <div class="modal-backdrop" id="modal-client">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modal-client-title">Añadir Nuevo Cliente</h3>
+                <button class="close-btn" id="modal-client-close"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="client-form" onsubmit="return false;">
+                    <input type="hidden" id="client-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="client-name" class="form-label">Nombre del Cliente *</label>
+                            <input type="text" id="client-name" class="form-input" placeholder="Nombre completo o Empresa" required>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="client-phone" class="form-label">WhatsApp / Celular *</label>
+                            <input type="tel" id="client-phone" class="form-input" placeholder="Ej: +51915215929" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="client-line" class="form-label">Línea de Negocio *</label>
+                            <select id="client-line" class="form-input" required>
+                                <option value="contabilidad">Contabilidad (Asesoría Contable)</option>
+                                <option value="sistemas">Sistemas (Software & ERP)</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="client-stage" class="form-label">Fase del Embudo *</label>
+                            <select id="client-stage" class="form-input" required>
+                                <option value="contacto_inicial">1. Contacto Inicial</option>
+                                <option value="llamada">2. Llamada</option>
+                                <option value="asesoria">3. Asesoría</option>
+                                <option value="cotizacion">4. Cotización</option>
+                                <option value="seguimiento">5. Seguimiento</option>
+                                <option value="ganado">6. Ganado</option>
+                                <option value="perdido">7. Perdido</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="client-budget" class="form-label">Cotización / Presupuesto Enviado</label>
+                            <input type="text" id="client-budget" class="form-input" placeholder="Ej: US$ 1,800 + IGV o S/. 1,200">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="form-label">Reunión o Próxima Llamada</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="date" id="client-meeting-date" class="form-input" style="flex: 1.5;" title="Fecha de la reunión">
+                                <input type="time" id="client-meeting-time" class="form-input" style="flex: 1;" title="Hora de la reunión">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Conditional Block: Lost Reason -->
+                    <div class="form-group" id="group-lost-reason" style="display: none;">
+                        <label for="client-lost-reason" class="form-label">Motivo del Cierre Perdido *</label>
+                        <select id="client-lost-reason" class="form-input">
+                            <option value="">-- Seleccionar Motivo --</option>
+                            <option value="no_responde">No responde / WhatsApp Fantasma</option>
+                            <option value="precio_alto">Precio muy elevado</option>
+                            <option value="sin_interes">Sin interés / Desistió del servicio</option>
+                            <option value="competencia">Se fue con la competencia</option>
+                            <option value="otros">Otros motivos / No especificado</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="client-date" class="form-label">Fecha de Registro</label>
+                            <input type="date" id="client-date" class="form-input" required>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="client-month-select" class="form-label">Mes del CRM</label>
+                            <select id="client-month-select" class="form-input" required>
+                                <!-- Loaded dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Google Calendar Quick Sync Button -->
+                    <div class="form-group" id="google-calendar-sync-container" style="display: none; margin-bottom: 20px;">
+                        <label class="form-label">Notificaciones y Agenda</label>
+                        <a href="#" id="btn-add-to-google-calendar" target="_blank" class="btn-secondary" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; border: 1px dashed var(--warning); background-color: var(--warning-light); color: var(--warning); font-weight: 700; font-size: 0.85rem; padding: 10px; border-radius: var(--radius-md);">
+                            <i data-lucide="calendar"></i> 📅 Agregar esta Reunión a Google Calendar (Notificaciones)
+                        </a>
+                    </div>
+                    
+                    <!-- Intelligent WhatsApp Notes Box -->
+                    <div class="form-group">
+                        <div class="label-with-badge">
+                            <label for="client-whatsapp-note" class="form-label">Comentario o Propuesta (Notas de Venta)</label>
+                            <span class="badge ai-badge" id="ai-suggestion-badge" style="display: none;">
+                                <i data-lucide="sparkles"></i> Sugerencia IA: <span id="ai-suggestion-text">...</span>
+                            </span>
+                            <span class="badge ai-badge" id="ai-date-suggestion-badge" style="display: none; background-color: var(--warning-light); color: var(--warning); cursor: pointer; border: 1px dashed rgba(217, 119, 6, 0.4); margin-left: 8px;" title="Haz clic para aplicar esta fecha y hora de reunión">
+                                <i data-lucide="calendar"></i> 📅 Cita: <span id="ai-date-suggestion-text">...</span> (Aplicar)
+                            </span>
+                        </div>
+                        <p class="field-hint">Escribe comentarios o pega chats directos de WhatsApp para actualizar el historial. El analizador inteligente sugerirá cambios de etapa.</p>
+                        <textarea id="client-whatsapp-note" class="form-textarea" placeholder="Escribe el estado de la propuesta o comentarios aquí. P.ej: 'Se le envió la propuesta de outsourcing contable pero no responde' o 'Llamé al cliente y agendamos reunión para asesoría contable mañana'..." rows="4"></textarea>
+                    </div>
+                    
+                    <!-- Dynamic Comments Timeline inside Edit -->
+                    <div class="timeline-container" id="client-timeline-box" style="display: none;">
+                        <span class="timeline-title"><i data-lucide="history"></i> Historial de Comentarios</span>
+                        <div class="timeline-items" id="client-timeline-items">
+                            <!-- Filled dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" id="modal-client-cancel">Cancelar</button>
+                        <button type="submit" class="btn-primary" id="modal-client-submit">Guardar Cliente</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MODAL 2: ADD & MANAGE MONTHS -->
+    <div class="modal-backdrop" id="modal-month">
+        <div class="modal-card modal-small">
+            <div class="modal-header">
+                <h3>Gestión de Meses de Seguimiento</h3>
+                <button class="close-btn" id="modal-month-close"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" style="padding-top: 15px;">
+                <!-- Section 1: Create Month -->
+                <form id="month-form" onsubmit="return false;" style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color);">
+                    <div class="form-group" style="margin-bottom: 6px;">
+                        <label for="new-month-name" class="form-label">Añadir Nuevo Mes (Año)</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" id="new-month-name" class="form-input" placeholder="Ej: Julio 2026" required>
+                            <button type="submit" class="btn-primary" id="modal-month-submit" style="white-space: nowrap; padding: 10px 16px;">
+                                <i data-lucide="plus"></i> Agregar
+                            </button>
+                        </div>
+                        <p class="field-hint">Usa un formato estándar como "Mes Año" (Ej: Julio 2026).</p>
+                    </div>
+                </form>
+
+                <!-- Section 2: Manage Existing Months -->
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" style="margin-bottom: 8px; display: block;">Meses Registrados</label>
+                    <div id="months-management-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; padding-right: 4px;">
+                        <!-- Dynamically filled in app.js -->
+                    </div>
+                </div>
+                
+                <div class="modal-footer" style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                    <button type="button" class="btn-secondary" id="modal-month-cancel" style="width: 100%; justify-content: center;">Cerrar Ventana</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: EXPORT TO EXCEL -->
+    <div class="modal-backdrop" id="modal-export-excel">
+        <div class="modal-card modal-small">
+            <div class="modal-header">
+                <h3>Exportar Clientes a Excel (.xlsx)</h3>
+                <button class="close-btn" id="modal-export-close"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" style="padding-top: 15px;">
+                <p class="description-text" style="margin-bottom: 16px; font-size: 0.85rem; color: var(--text-secondary);">
+                    Selecciona qué línea de negocio deseas exportar de toda la base de datos histórica del CRM:
+                </p>
+                
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="export-line-select" class="form-label">Rama / Línea de Negocio</label>
+                    <select id="export-line-select" class="form-input" style="width: 100%;">
+                        <option value="all">Todas las ramas (Consolidado)</option>
+                        <option value="contabilidad">Solo Contabilidad B2B</option>
+                        <option value="sistemas">Solo IT / Software ERP</option>
+                    </select>
+                </div>
+                
+                <div style="background-color: var(--primary-light); padding: 12px; border-radius: var(--radius-sm); border-left: 4px solid var(--primary); font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 15px;">
+                    <i data-lucide="info" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px; color: var(--primary);"></i>
+                    <strong>Nota:</strong> Se generará un archivo de Excel real con todos los registros guardados en los meses activos del CRM, incluyendo el historial comercial.
+                </div>
+                
+                <div class="modal-footer" style="padding-top: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px;">
+                    <button type="button" class="btn-secondary" id="modal-export-cancel" style="flex: 1; justify-content: center;">Cancelar</button>
+                    <button type="button" class="btn-primary" id="btn-do-export-excel" style="flex: 1; justify-content: center; white-space: nowrap;">
+                        <i data-lucide="download"></i> Descargar Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: DETECT DUPLICATES -->
+    <div class="modal-backdrop" id="modal-duplicates">
+        <div class="modal-card" style="max-width: 750px; width: 90%;">
+            <div class="modal-header">
+                <h3>Contactos Duplicados en la Base de Datos</h3>
+                <button class="close-btn" id="modal-duplicates-close"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" style="padding-top: 15px;">
+                <p class="description-text" style="margin-bottom: 12px; font-size: 0.85rem; color: var(--text-secondary);">
+                    Los siguientes números telefónicos están registrados más de una vez en el CRM. Puedes eliminar o editar registros redundantes directamente aquí para depurar la base de datos.
+                </p>
+                
+                <div id="duplicates-list-container" style="display: flex; flex-direction: column; gap: 16px; max-height: 400px; overflow-y: auto; padding-right: 4px; margin-top: 15px;">
+                    <!-- Filled dynamically in app.js -->
+                </div>
+                
+                <div class="modal-footer" style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                    <button type="button" class="btn-secondary" id="modal-duplicates-cancel" style="width: 100%; justify-content: center;">Cerrar Ventana</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SheetJS Library to export real Excel (.xlsx) files -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- ChartJS for interactive metrics and reports -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Script Application -->
+    <script src="app.js"></script>
+</body>
+</html>
