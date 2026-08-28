@@ -8,6 +8,8 @@
 // Esto conectará el CRM en la nube para ti y tu compañera en cualquier PC con CERO configuraciones de su parte.
 const DEFAULT_SYNC_URL = "https://script.google.com/macros/s/AKfycbxhGR4X_nQ8np7DY9b5SsPjnrmpCyG0x3a58cc0Axu1p8Gj21rcZIMJLRrvPg5O-KOXiw/exec"; 
 
+
+
 const DEFAULT_MONTHS = ["Mayo 2026", "Junio 2026"];
 
 const DEFAULT_TEMPLATES = {
